@@ -1,30 +1,30 @@
-
+import { Link } from "react-router-dom";
 
 const links = [
   {
     name: "Home",
     icon: "HomeIcon",
-    href: "/",
+    link: "/",
   },
   {
     name: "Teams",
     icon: "UsersIcon",
-    href: "/teams",
+    link: "/teams",
   },
   {
     name: "Projects",
     icon: "BriefcaseIcon",
-    href: "/projects",
+    link: "/projects",
   },
   {
     name: "Settings",
     icon: "CogIcon",
-    href: "/settings",
+    link: "/settings",
   },
   {
     name: "Logout",
     icon: "LogoutIcon",
-    href: "/logout",
+    link: "/logout",
   },
 ];
 
@@ -69,9 +69,9 @@ export default function Sidebar() {
             <ul className="pt-2 pb-4 space-y-1 text-sm">
               {links.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href="#"
-                    className="flex items-center px-2 py-2 space-x-2 rounded-md hover:bg-gray-100"
+                  <Link
+                    to={link.link}
+                    className="flex items-center p-2 space-x-2 rounded-md hover:bg-gray-200"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +88,7 @@ export default function Sidebar() {
                       />
                     </svg>
                     <span>{link.name}</span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
