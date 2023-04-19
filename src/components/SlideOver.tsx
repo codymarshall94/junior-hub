@@ -12,11 +12,7 @@ const SlideOver = ({ project, show, hide }: any) => {
   const { name, description, createdAt, members, stack, status } = project;
 
   if (project.length === 0) {
-    return (
-      <div className="flex flex-col justify-center items-center absolute right-0 top-0 overflow-hidden p-4 z-50 bg-white h-screen w-1/4 shadow">
-        <h1>Select A Project To Get Started</h1>
-      </div>
-    );
+    return null;
   }
 
   return (
@@ -31,13 +27,13 @@ const SlideOver = ({ project, show, hide }: any) => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
             className="w-6 h-6"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M6 18L18 6M6 6l12 12"
             />
           </svg>
@@ -83,9 +79,7 @@ const SlideOver = ({ project, show, hide }: any) => {
 
       {/* Buttons */}
       <div className="flex justify-between p-4 border-b">
-        <button className="bg-blue-500 text-white p-4 w-full">
-          Request
-        </button>
+        <button className="bg-blue-500 text-white p-4 w-full">Request</button>
         <button className="bg-gray-200 text-gray-500 p-4 w-full">
           Message
         </button>
