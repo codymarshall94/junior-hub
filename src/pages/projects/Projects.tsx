@@ -1,5 +1,8 @@
+import { useState } from "react";
 import ProjectItemPill from "../../components/Pill";
+import SlideOver from "../../components/SlideOver";
 import { PROJECTS } from "../../data/testdata";
+import { Link } from "react-router-dom";
 
 type ProjectProps = {
   id: number;
@@ -114,14 +117,46 @@ const ProjectItem = ({
   );
 };
 
-const Projects = ({ onClick }: any) => {
+const Projects = () => {
+  const [selectedProject, setSelectedProject] = useState([]);
+  const [showSlideOver, setShowSlideOver] = useState(false);
+
+  const handleProjectClick = (project: any) => {
+    console.log(project);
+    setSelectedProject(project);
+    setShowSlideOver(true);
+  };
+
+  const handleSlideOver = () => {
+    setShowSlideOver(!showSlideOver);
+  };
+
   return (
-    <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-4 h-fit">
-      {PROJECTS.map((project) => (
-        <ProjectItem key={project.id} project={project} onClick={onClick} />
-      ))}
+    <div className="flex flex-col items-center">
+      <div className="flex items-center justify-between w-full p-4 h-40">
+        <h1 className="text-2xl font-bold h-fit">Project Listings</h1>
+        <Link
+          to="/create-project"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Create Project
+        </Link>
+      </div>
+      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-4 h-fit">
+        {PROJECTS.map((project) => (
+          <ProjectItem
+            key={project.id}
+            project={project}
+            onClick={handleProjectClick}
+          />
+        ))}
+      </div>
+      <SlideOver
+        project={selectedProject}
+        show={showSlideOver}
+        hide={handleSlideOver}
+      />
     </div>
   );
 };
-
 export default Projects;
