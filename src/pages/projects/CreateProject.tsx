@@ -1,11 +1,17 @@
 import { useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL as string;
+const supabaseKey: string = import.meta.env.VITE_SUPABASE_KEY as string;
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 interface ProjectListing {
   name: string;
   description: string;
-  createdAt: string;
+  createdat: string;
   status: string;
-  teamCount: number;
+  teamcount: number;
   members: string[];
   stack: string[];
 }
@@ -30,12 +36,12 @@ const CreateProject = () => {
   const [projectListing, setProjectListing] = useState<ProjectListing>({
     name: "",
     description: "",
-    createdAt: "",
+    createdat: "",
     status: "",
-    teamCount: 0,
+    teamcount: 0,
     members: [],
     stack: [],
-  });
+  }); 
 
   const handleCheckboxChange = (e: any) => {
     const { id, checked } = e.target;
@@ -56,9 +62,47 @@ const CreateProject = () => {
     setProjectListing({ ...projectListing, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log(projectListing);
+
+    if (projectListing.stack.length === 0) {
+      alert("Please select at least one technology stack");
+      return;
+    }
+
+    const projectSubmission = {
+      ...projectListing,
+      members: ["Cody"],
+      createdat: new Date().toISOString(),
+    };
+
+    const isEmpty = Object.values(projectSubmission).some(
+      (x) => x === null || x === ""
+    );
+
+    if (isEmpty) {
+      console.log(isEmpty);
+      alert("Please fill out all fields");
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("projects")
+      .insert([projectSubmission]);
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(data + " was created");
+      setProjectListing({
+        name: "",
+        description: "",
+        createdat: "",
+        status: "",
+        teamcount: 0,
+        members: [],
+        stack: [],
+      });
+    }
   };
 
   return (
@@ -80,6 +124,7 @@ const CreateProject = () => {
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               value={projectListing.name}
               onChange={(e) => handleChange(e)}
+              required
             />
           </div>
           {/* Status */}
@@ -94,6 +139,7 @@ const CreateProject = () => {
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="status"
               onChange={(e) => handleChange(e)}
+              required
             >
               <option value="active">Planning</option>
               <option value="inactive">Early Development</option>
@@ -115,6 +161,7 @@ const CreateProject = () => {
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               value={projectListing.description}
               onChange={(e) => handleChange(e)}
+              required
             />
           </div>
 
@@ -122,16 +169,17 @@ const CreateProject = () => {
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold my-2"
-              htmlFor="teamCount"
+              htmlFor="teamcount"
             >
               Team Count
             </label>
             <input
               type="number"
-              id="teamCount"
+              id="teamcount"
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              value={projectListing.teamCount}
+              value={projectListing.teamcount}
               onChange={(e) => handleChange(e)}
+              required
             />
           </div>
           {/* Stack */}
