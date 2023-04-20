@@ -17,6 +17,11 @@ const links = [
     link: "/projects",
   },
   {
+    name: "Profile",
+    icon: "UserIcon",
+    link: "/profile",
+  },
+  {
     name: "Settings",
     icon: "CogIcon",
     link: "/settings",
