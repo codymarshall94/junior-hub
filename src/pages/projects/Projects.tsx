@@ -1,19 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProjectItemPill from "../../components/Pill";
 import SlideOver from "../../components/SlideOver";
-import { PROJECTS } from "../../data/testdata";
 import { Link } from "react-router-dom";
+import { createClient } from "@supabase/supabase-js";
 
-type ProjectProps = {
+const supabase = createClient(
+  "https://flpzcrwmgtaelgqaderr.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZscHpjcndtZ3RhZWxncWFkZXJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODE5MzgwNjMsImV4cCI6MTk5NzUxNDA2M30.bKaq1hCSI1ldSLhScjl9d4pDCl9TvVdvQraZV8Z1o7I"
+);
+
+interface ProjectProps {
   id: number;
   name: string;
   description: string;
-  createdAt: string;
-  teamCount: string;
-  members: string[];
-  stack: string[];
+  createdat: string;
+  teamcount: number;
+  members: string[] | any;
+  stack: string[] | any;
   status: string;
-};
+}
 
 const WatchIcon = () => {
   return (
@@ -46,11 +51,11 @@ const ProjectItem = ({
   project: ProjectProps;
   onClick: any;
 }) => {
-  const { name, description, teamCount, stack, createdAt } = project;
+  const { name, description, teamcount, stack, createdat, members } = project;
   return (
-    <div className="group">
+    <div className="group ">
       <div
-        className="rounded-md bg-[#F8FAFF] group-hover:bg-white p-4 w-full flex flex-col justify-between border-[#E0E6F7] group-hover:border-[#CDD4F7] border-2 cursor-pointer h-fit translate-y-0 group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out"
+        className="min-h-full rounded-md bg-[#F8FAFF] group-hover:bg-white p-4 w-full flex flex-col justify-between border-[#E0E6F7] group-hover:border-[#CDD4F7] border-2 cursor-pointer h-fit translate-y-0 group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out"
         onClick={() => onClick(project)}
       >
         <div className="flex flex-col justify-between">
@@ -74,7 +79,9 @@ const ProjectItem = ({
                   d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
                 />
               </svg>
-              <span className="text-sm text-gray-500">{teamCount}</span>
+              <span className="text-sm text-gray-500">
+                {members.length}/{teamcount}
+              </span>
             </div>
             <div className="flex items-center space-x-1">
               <svg
@@ -92,14 +99,14 @@ const ProjectItem = ({
                 />
               </svg>
 
-              <span className="text-sm text-gray-500">{createdAt}</span>
+              <span className="text-sm text-gray-500">{createdat}</span>
             </div>
           </div>
           <div className="py-4">
             <p className="text-sm">{description}</p>
           </div>
           <div className="flex space-x-2 mt-2">
-            {stack.map((pill) => (
+            {stack.map((pill: string) => (
               <ProjectItemPill key={pill} pill={pill} />
             ))}
           </div>
@@ -118,8 +125,23 @@ const ProjectItem = ({
 };
 
 const Projects = () => {
+  const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState([]);
   const [showSlideOver, setShowSlideOver] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getProjects();
+  }, []);
+
+  const getProjects = async () => {
+    const { data, error } = await supabase.from("projects").select("*");
+    if (error) {
+      console.log(error);
+    }
+    setProjects(data as any);
+    setLoading(false);
+  };
 
   const handleProjectClick = (project: any) => {
     console.log(project);
@@ -132,7 +154,7 @@ const Projects = () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col w-screen items-center">
       <div className="flex items-center justify-between w-full p-4 h-40">
         <h1 className="text-2xl font-bold h-fit">Project Listings</h1>
         <Link
@@ -142,15 +164,21 @@ const Projects = () => {
           Create Project
         </Link>
       </div>
-      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-4 h-fit">
-        {PROJECTS.map((project) => (
-          <ProjectItem
-            key={project.id}
-            project={project}
-            onClick={handleProjectClick}
-          />
-        ))}
-      </div>
+      {loading ? (
+        <div className="h-fit border-t-2 border-[#E0E6F7] w-full">
+          <span>Fetching Projects...</span>
+        </div>
+      ) : (
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-4 h-fit border-t-2 border-[#E0E6F7] w-full">
+          {projects.map((project) => (
+            <ProjectItem
+              key={project["id"]}
+              project={project}
+              onClick={handleProjectClick}
+            />
+          ))}
+        </div>
+      )}
       <SlideOver
         project={selectedProject}
         show={showSlideOver}
