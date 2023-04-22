@@ -9,6 +9,7 @@ import ProfileSkills from "./pages/profile/ProfileSkills";
 import ProfileExperience from "./pages/profile/ProfileExperience";
 import ProfileLayout from "./layouts/ProfileLayout";
 import RootLayout from "./layouts/RootLayout";
+import ProfileEdit from "./pages/profile/ProfileEdit";
 
 function App() {
   return (
@@ -20,10 +21,11 @@ function App() {
           <Route path="projects" element={<Projects />} />
           <Route path="projects/create-project" element={<CreateProject />} />
           <Route path="profile" element={<ProfileLayout />}>
-            <Route path="bio" element={<ProfileBio />} />
+            <Route path="bio" index element={<ProfileBio />} />
             <Route path="skills" element={<ProfileSkills />} />
             <Route path="experience" element={<ProfileExperience />} />
           </Route>
+          <Route path="profile/edit-profile" element={<ProfileEdit />} />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<h1>404</h1>} />
         </Route>
