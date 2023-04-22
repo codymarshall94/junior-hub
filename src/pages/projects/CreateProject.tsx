@@ -113,7 +113,7 @@ const CreateProject = () => {
           {/* Name */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-[#A3ABBA] text-xs font-bold mb-2"
               htmlFor="name"
             >
               Name
@@ -121,7 +121,7 @@ const CreateProject = () => {
             <input
               type="text"
               id="name"
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full border-[#E0E6F6] text-[#A3ABBA] border border-2 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               value={projectListing.name}
               onChange={(e) => handleChange(e)}
               required
@@ -130,13 +130,13 @@ const CreateProject = () => {
           {/* Status */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-[#A3ABBA] text-xs font-bold mb-2"
               htmlFor="status"
             >
               Status
             </label>
             <select
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full border-[#E0E6F6] text-[#A3ABBA] border border-2 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="status"
               onChange={(e) => handleChange(e)}
               required
@@ -150,7 +150,7 @@ const CreateProject = () => {
           {/* Description */}
           <div className="w-full px-3 mb-6 md:mb-0">
             <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold my-2"
+              className="block uppercase tracking-wide text-[#A3ABBA] text-xs font-bold my-2"
               htmlFor="description"
             >
               Description
@@ -158,7 +158,7 @@ const CreateProject = () => {
             <input
               type="text area"
               id="description"
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full border-[#E0E6F6] text-[#A3ABBA] border border-2 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               value={projectListing.description}
               onChange={(e) => handleChange(e)}
               required
@@ -168,7 +168,7 @@ const CreateProject = () => {
           {/* Team Count */}
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold my-2"
+              className="block uppercase tracking-wide text-[#A3ABBA] text-xs font-bold my-2"
               htmlFor="teamcount"
             >
               Team Count
@@ -176,7 +176,7 @@ const CreateProject = () => {
             <input
               type="number"
               id="teamcount"
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full border-[#E0E6F6] text-[#A3ABBA] border border-2 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               value={projectListing.teamcount}
               onChange={(e) => handleChange(e)}
               required
@@ -185,7 +185,7 @@ const CreateProject = () => {
           {/* Stack */}
           <div className="w-full px-3 mb-6 md:mb-0">
             <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold my-2"
+              className="block uppercase tracking-wide text-[#A3ABBA] text-xs font-bold my-2"
               htmlFor="stack"
             >
               Stack
@@ -197,7 +197,7 @@ const CreateProject = () => {
               {techStackOptions.map((tech) => (
                 <div
                   key={tech}
-                  className="flex items-center w-full border p-3 border-gray-200 rounded-t-lg dark:border-gray-600"
+                  className="flex items-center w-full p-3 border-[#E0E6F6] text-[#A3ABBA] border border-2 rounded-t-lg"
                 >
                   <input
                     type="checkbox"
