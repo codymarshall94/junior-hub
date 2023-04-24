@@ -1,10 +1,6 @@
 import { useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL as string;
-const supabaseKey: string = import.meta.env.VITE_SUPABASE_KEY as string;
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabase } from "../../supabase/supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 interface ProjectListing {
   name: string;
@@ -33,15 +29,16 @@ const techStackOptions = [
 ];
 
 const CreateProject = () => {
+  const navigate = useNavigate();
   const [projectListing, setProjectListing] = useState<ProjectListing>({
     name: "",
     description: "",
     createdat: "",
     status: "",
-    teamcount: 0,
+    teamcount: 1,
     members: [],
     stack: [],
-  }); 
+  });
 
   const handleCheckboxChange = (e: any) => {
     const { id, checked } = e.target;
@@ -102,6 +99,7 @@ const CreateProject = () => {
         members: [],
         stack: [],
       });
+      navigate("/projects");
     }
   };
 
