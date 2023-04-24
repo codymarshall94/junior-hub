@@ -2,12 +2,8 @@ import { useEffect, useState } from "react";
 import ProjectItemPill from "../../components/Pill";
 import SlideOver from "../../components/SlideOver";
 import { Link } from "react-router-dom";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  "https://flpzcrwmgtaelgqaderr.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZscHpjcndtZ3RhZWxncWFkZXJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODE5MzgwNjMsImV4cCI6MTk5NzUxNDA2M30.bKaq1hCSI1ldSLhScjl9d4pDCl9TvVdvQraZV8Z1o7I"
-);
+import { supabase } from "../../supabase/supabaseClient";
+import ProjectsToolbar from "./ProjectsToolbar";
 
 interface ProjectProps {
   id: number;
@@ -144,7 +140,6 @@ const Projects = () => {
   };
 
   const handleProjectClick = (project: any) => {
-    console.log(project);
     setSelectedProject(project);
     setShowSlideOver(true);
   };
@@ -164,12 +159,13 @@ const Projects = () => {
           Create Project
         </Link>
       </div>
+      <ProjectsToolbar length={projects.length} />
       {loading ? (
         <div className="h-fit border-t-2 border-[#E0E6F7] w-full">
           <span>Fetching Projects...</span>
         </div>
       ) : (
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-4 h-fit border-t-2 border-[#E0E6F7] w-full">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 p-4 h-fit border-t-2 border-[#E0E6F7] w-full">
           {projects.map((project) => (
             <ProjectItem
               key={project["id"]}
