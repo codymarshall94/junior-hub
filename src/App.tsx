@@ -10,22 +10,49 @@ import ProfileExperience from "./pages/profile/ProfileExperience";
 import ProfileLayout from "./layouts/ProfileLayout";
 import RootLayout from "./layouts/RootLayout";
 import ProfileEdit from "./pages/profile/ProfileEdit";
+import Landing from "./pages/landing/Landing";
+import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
+import { fetchUser } from "./supabase/supabaseAuth";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const grabUser = async () => {
+      const user = await fetchUser();
+      setUser(user);
+    };
+    grabUser();
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<RootLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route element={<RootLayout />}>
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="teams" element={<Teams />} />
           <Route path="projects" element={<Projects />} />
           <Route path="projects/create-project" element={<CreateProject />} />
-          <Route path="profile" element={<ProfileLayout />}>
+          <Route path="profile" element={<ProfileLayout user={user} />}>
             <Route path="bio" index element={<ProfileBio />} />
             <Route path="skills" element={<ProfileSkills />} />
             <Route path="experience" element={<ProfileExperience />} />
           </Route>
-          <Route path="profile/edit-profile" element={<ProfileEdit />} />
+          <Route
+            path="profile/edit-profile"
+            element={<ProfileEdit user={user} />}
+          />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<h1>404</h1>} />
         </Route>
