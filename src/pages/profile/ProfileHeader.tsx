@@ -1,18 +1,21 @@
 import { Link } from "react-router-dom";
 
-const ProfileHeader = () => {
+const ProfileHeader = ({ name }: { name: string }) => {
   return (
     <>
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <div className="bg-gray-200 rounded h-14 w-14"></div>
           <div>
-            <h1 className="text-2xl font-semibold">John Doe</h1>
+            <h1 className="text-2xl font-semibold">{name}</h1>
             <p className="text-gray-500">UI/UX Designer</p>
           </div>
         </div>
         <div>
-          <Link to="edit-profile" className="bg-blue-500 text-white px-4 py-2 rounded-md">
+          <Link
+            to="edit-profile"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+          >
             Edit Profile
           </Link>
         </div>
