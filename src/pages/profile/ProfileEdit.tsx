@@ -1,6 +1,15 @@
 import ProfileEditForm from "./ProfileEditForm";
 
-const ProfileEdit = () => {
+interface User {
+  email: string;
+  fullname: string;
+  ["user_metadata"]: {
+    fullname: string;
+    email: string;
+  };
+}
+
+const ProfileEdit = ({ user }: { user: User }) => {
   return (
     <div className="p-4">
       <div>
@@ -15,7 +24,7 @@ const ProfileEdit = () => {
           Upload Avatar
         </button>
       </div>
-      <ProfileEditForm />
+      <ProfileEditForm user={user} />
     </div>
   );
 };
