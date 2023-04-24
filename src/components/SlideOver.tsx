@@ -9,7 +9,8 @@ const ProjectMembers = ({ member }: any) => (
 );
 
 const SlideOver = ({ project, show, hide }: any) => {
-  const { name, description, createdAt, members, stack, status } = project;
+  const { name, description, createdat, members, stack, status } = project;
+  console.log(project);
 
   if (project.length === 0) {
     return null;
@@ -51,7 +52,7 @@ const SlideOver = ({ project, show, hide }: any) => {
         <div className="my-2">
           <span className="font-bold">Group Created</span>
           <br />
-          <span className="text-xs">{createdAt}</span>
+          <span className="text-xs">{createdat}</span>
         </div>
 
         {/*Group Status */}
