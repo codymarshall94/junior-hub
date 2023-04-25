@@ -5,6 +5,15 @@ interface Credentials {
   password: string;
 }
 
+interface UserMetaData {
+  fullname: string;
+  bio: string;
+  skills: string[];
+  personalwebsite: string;
+  linkedin: string;
+  github: string;
+}
+
 export const registerUser = async (credentials: Credentials) => {
   const { data, error } = await supabase.auth.signUp(credentials);
   return { data, error };
@@ -28,12 +37,16 @@ export const fetchUser = async () => {
   return user;
 };
 
-export const updateUser = async (info: any) => {
-  const { fullname, email } = info;
+export const updateUser = async (info: UserMetaData) => {
+  const { fullname, bio, personalwebsite, linkedin, github, skills } = info;
   const { data, error } = await supabase.auth.updateUser({
     data: {
       fullname,
-      email,
+      bio,
+      skills,
+      personalwebsite,
+      linkedin,
+      github,
     },
   });
   return { data, error };
