@@ -2,6 +2,7 @@ import { useState } from "react";
 
 interface UserMetaData {
   fullname: string;
+  title: string;
   bio: string;
   skills: string[];
   personalwebsite: string;
@@ -12,6 +13,7 @@ interface UserMetaData {
 const useOnBoardingInfo = () => {
   const [updateUserInfo, setUpdateUserInfo] = useState<UserMetaData>({
     fullname: "",
+    title: "",
     bio: "",
     skills: [],
     personalwebsite: "",

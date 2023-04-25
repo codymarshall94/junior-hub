@@ -7,6 +7,7 @@ interface Credentials {
 
 interface UserMetaData {
   fullname: string;
+  title: string;
   bio: string;
   skills: string[];
   personalwebsite: string;
@@ -38,10 +39,11 @@ export const fetchUser = async () => {
 };
 
 export const updateUser = async (info: UserMetaData) => {
-  const { fullname, bio, personalwebsite, linkedin, github, skills } = info;
+  const { fullname, title, bio, personalwebsite, linkedin, github, skills } = info;
   const { data, error } = await supabase.auth.updateUser({
     data: {
       fullname,
+      title,
       bio,
       skills,
       personalwebsite,
