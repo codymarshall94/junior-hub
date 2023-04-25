@@ -55,7 +55,7 @@ function App() {
           <Route path="projects" element={<Projects />} />
           <Route path="projects/create-project" element={<CreateProject />} />
           <Route path="profile" element={<ProfileLayout user={user} />}>
-            <Route path="bio" index element={<ProfileBio />} />
+            <Route path="bio" index element={<ProfileBio bio={user ? user["user_metadata"].bio : ""} />} />
             <Route path="skills" element={<ProfileSkills />} />
             <Route path="experience" element={<ProfileExperience />} />
           </Route>
