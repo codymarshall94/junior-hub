@@ -58,7 +58,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
     console.log(user);
   }, [user]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditProfile({ ...editProfile, [e.target.id]: e.target.value });
   };
 
@@ -129,6 +129,8 @@ const ProfileEditForm = ({ user }: { user: User }) => {
           <textarea
             id="bio"
             name="bio"
+            value={editProfile.bio}
+            onChange={handleChange}
             className="appearance-none block w-full border-[#E0E6F6] text-[#A3ABBA] border border-2 border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           />
         </div>
