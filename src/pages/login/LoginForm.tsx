@@ -1,4 +1,3 @@
-import { supabase } from "../../supabase/supabaseClient";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../supabase/supabaseAuth";
