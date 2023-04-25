@@ -6,6 +6,7 @@ import OnboardingName from "./OnboardingName";
 import { useNavigate } from "react-router-dom";
 import useUpdateUser from "../../hooks/useUpdateUser";
 import { updateUser } from "../../supabase/supabaseAuth";
+import OnboardingTitle from "./OnboardingTitle";
 
 const Onboarding = () => {
   const [step, setStep] = useState(0);
@@ -43,6 +44,16 @@ const Onboarding = () => {
         <OnboardingName
           handleChange={handleChange}
           fullname={updateUserInfo.fullname}
+        />
+      ),
+    },
+    {
+      question: "What is your title?",
+      helperText: "Pick a title that best describes what you specialize in.",
+      element: (
+        <OnboardingTitle
+          handleChange={handleChange}
+          title={updateUserInfo.title}
         />
       ),
     },
