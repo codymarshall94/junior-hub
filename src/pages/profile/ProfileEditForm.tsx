@@ -9,6 +9,11 @@ interface User {
   ["user_metadata"]: {
     fullname: string;
     email: string;
+    skills: string[];
+    bio: string;
+    personalwebsite: string;
+    github: string;
+    linkedin: string;
   };
 }
 
@@ -16,9 +21,11 @@ const ProfileEditForm = ({ user }: { user: User }) => {
   const [editProfile, setEditProfile] = useState({
     fullname: "",
     email: "",
+    skills: [],
     bio: "",
     personalwebsite: "",
     github: "",
+    linkedin: "",
     password: "",
     repassword: "",
   });
@@ -35,13 +42,17 @@ const ProfileEditForm = ({ user }: { user: User }) => {
     });
 
   useEffect(() => {
-    const { fullname } = user["user_metadata"];
+    const { fullname, bio, personalwebsite, linkedin, github } = user["user_metadata"];
     if (user) {
       console.log(fullname);
       setEditProfile({
         ...editProfile,
         email: user.email,
         fullname: fullname || "",
+        bio: bio || "",
+        personalwebsite: personalwebsite || "",
+        github: github || "",
+        linkedin: linkedin || "",
       });
     }
     console.log(user);
@@ -57,6 +68,11 @@ const ProfileEditForm = ({ user }: { user: User }) => {
     const updateInfo = {
       email: editProfile.email,
       fullname: editProfile.fullname,
+      skills: editProfile.skills,
+      bio: editProfile.bio,
+      personalwebsite: editProfile.personalwebsite,
+      github: editProfile.github,
+      linkedin: editProfile.linkedin,
     };
     try {
       updateUser(updateInfo);
@@ -144,6 +160,22 @@ const ProfileEditForm = ({ user }: { user: User }) => {
             id="github"
             name="github"
             value={editProfile.github}
+            onChange={handleChange}
+            className="appearance-none block w-full border-[#E0E6F6] text-[#A3ABBA] border border-2 border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          />
+        </div>
+        <div className="w-1/2 md:w-1/2 px-3 mb-6 md:mb-0">
+          <label
+            className="block uppercase tracking-wide text-[#A3ABBA] text-xs font-bold my-2"
+            htmlFor="github"
+          >
+            LinkedIn
+          </label>
+          <input
+            type="url"
+            id="linkedin"
+            name="linkedin"
+            value={editProfile.linkedin}
             onChange={handleChange}
             className="appearance-none block w-full border-[#E0E6F6] text-[#A3ABBA] border border-2 border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           />
