@@ -13,20 +13,29 @@ import ProfileEdit from "./pages/profile/ProfileEdit";
 import Landing from "./pages/landing/Landing";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
-import { fetchUser } from "./supabase/supabaseAuth";
 import { useEffect, useState } from "react";
+import Onboarding from "./pages/onboarding/Onboarding";
+import { supabase } from "./supabase/supabaseClient";
 
 function App() {
+  const [session, setSession] = useState<any>(null);
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const grabUser = async () => {
-      const user = await fetchUser();
-      setUser(user);
-    };
-    grabUser();
+    supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session);
+    });
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session);
+      setUser(session?.user);
+    });
     setLoading(false);
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   if (loading) {
@@ -39,6 +48,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/onboarding" element={<Onboarding />} />
         <Route element={<RootLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="teams" element={<Teams />} />
