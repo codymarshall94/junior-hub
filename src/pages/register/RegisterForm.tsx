@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { loginUser } from "../../supabase/supabaseAuth";
+import { supabase } from "../../supabase/supabaseClient";
 
-interface RegisterUser {
+interface RegisterInfo {
   name: string;
   email: string;
   password: string;
@@ -11,7 +11,7 @@ interface RegisterUser {
 
 const RegisterForm = () => {
   const navigate = useNavigate();
-  const [registerUser, setRegisterUser] = useState<RegisterUser>({
+  const [registerUser, setRegisterUser] = useState<RegisterInfo>({
     name: "",
     email: "",
     password: "",
@@ -39,13 +39,12 @@ const RegisterForm = () => {
       password: registerUser.password,
     };
 
-    loginUser(registerCredentials).then((response) => {
+    supabase.auth.signUp(registerCredentials).then((response) => {
       if (response.error) {
         setError(response.error.message);
         return;
       }
-      console.log(response);
-      navigate("/dashboard");
+      navigate("/onboarding");
     });
   };
 
