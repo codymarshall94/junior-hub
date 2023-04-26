@@ -2,25 +2,14 @@ import { useEffect, useState } from "react";
 import { updateUser } from "../../supabase/supabaseAuth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProfileAvatar from "./ProfileAvatar";
 
-interface User {
-  email: string;
-  fullname: string;
-  ["user_metadata"]: {
-    fullname: string;
-    email: string;
-    skills: string[];
-    bio: string;
-    personalwebsite: string;
-    github: string;
-    linkedin: string;
-  };
-}
-
-const ProfileEditForm = ({ user }: { user: User }) => {
+const ProfileEditForm = ({ profile, loading }: any) => {
   const [editProfile, setEditProfile] = useState({
-    fullname: "",
+    full_name: "",
     email: "",
+    title: "",
+    avatar_url: "",
     skills: [],
     bio: "",
     personalwebsite: "",
@@ -42,24 +31,42 @@ const ProfileEditForm = ({ user }: { user: User }) => {
     });
 
   useEffect(() => {
-    const { fullname, bio, personalwebsite, linkedin, github } = user["user_metadata"];
-    if (user) {
-      console.log(fullname);
-      setEditProfile({
-        ...editProfile,
-        email: user.email,
-        fullname: fullname || "",
-        bio: bio || "",
-        personalwebsite: personalwebsite || "",
-        github: github || "",
-        linkedin: linkedin || "",
-      });
-    }
-    console.log(user);
-  }, [user]);
+    if (!loading) {
+      const { full_name, email, title, bio, website, linkedin, github, avatar_url } =
+        profile;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+      if (profile) {
+        setEditProfile({
+          ...editProfile,
+          full_name: full_name || "",
+          email: email || "",
+          title: title || "",
+          avatar_url: avatar_url || "",
+          bio: bio || "",
+          personalwebsite: website || "",
+          github: github || "",
+          linkedin: linkedin || "",
+        });
+      }
+    }
+  }, [profile, loading]);
+
+  const onUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    filePath: string
+  ) => {
+    setEditProfile({ ...editProfile, avatar_url: filePath });
+  };
+
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const { id, value } = e.target;
+    console.log(id, value);
     setEditProfile({ ...editProfile, [e.target.id]: e.target.value });
+    console.log(editProfile);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,13 +74,17 @@ const ProfileEditForm = ({ user }: { user: User }) => {
 
     const updateInfo = {
       email: editProfile.email,
-      fullname: editProfile.fullname,
+      full_name: editProfile.full_name,
+      avatar_url: editProfile.avatar_url,
+      title: editProfile.title,
       skills: editProfile.skills,
       bio: editProfile.bio,
       personalwebsite: editProfile.personalwebsite,
       github: editProfile.github,
       linkedin: editProfile.linkedin,
     };
+
+    console.log("submitting", updateInfo);
     try {
       updateUser(updateInfo);
       save();
@@ -85,6 +96,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
   return (
     <>
       <form className="mt-4" onSubmit={handleSubmit}>
+        <ProfileAvatar url={editProfile.avatar_url} onUpload={onUpload} />
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label
             className="block uppercase tracking-wide text-[#A3ABBA] text-xs font-bold my-2"
@@ -94,9 +106,26 @@ const ProfileEditForm = ({ user }: { user: User }) => {
           </label>
           <input
             type="text"
-            id="fullname"
-            name="fullname"
-            value={editProfile.fullname}
+            id="full_name"
+            name="full_name"
+            value={editProfile.full_name}
+            onChange={handleChange}
+            className="appearance-none block w-full border-[#E0E6F6] text-[#A3ABBA] border border-2 border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            required
+          />
+        </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <label
+            className="block uppercase tracking-wide text-[#A3ABBA] text-xs font-bold my-2"
+            htmlFor="title"
+          >
+            Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={editProfile.title}
             onChange={handleChange}
             className="appearance-none block w-full border-[#E0E6F6] text-[#A3ABBA] border border-2 border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             required
