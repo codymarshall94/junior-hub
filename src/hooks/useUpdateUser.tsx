@@ -28,7 +28,6 @@ const useOnBoardingInfo = () => {
   ) => {
     const { name, value } = e.target;
     setUpdateUserInfo({ ...updateUserInfo, [name]: value });
-    console.log(updateUserInfo);
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +43,6 @@ const useOnBoardingInfo = () => {
         skills: updateUserInfo.skills.filter((skill) => skill !== name),
       });
     }
-    console.log(updateUserInfo);
   };
 
   return { updateUserInfo, handleChange, handleCheckboxChange };
