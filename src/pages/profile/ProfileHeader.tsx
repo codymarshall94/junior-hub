@@ -1,18 +1,26 @@
 import { Link } from "react-router-dom";
 
 interface ProfileHeaderProps {
-  fullname: string;
+  full_name: string;
   title: string;
+  avatar: string;
 }
 
-const ProfileHeader = ({ fullname, title }: ProfileHeaderProps) => {
+const ProfileHeader = ({ full_name, title, avatar }: ProfileHeaderProps) => {
+  
   return (
     <>
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <div className="bg-gray-200 rounded h-14 w-14"></div>
+          {avatar ? (
+            <div className="bg-gray-100 rounded flex items-center justify-center overflow-hidden w-20 h-20 border border-gray-200">
+              <img src={avatar} alt="Avatar" className="object-contain" />
+            </div>
+          ) : (
+            <div className="bg-gray-100 rounded w-20 h-20 flex items-center justify-center" />
+          )}
           <div>
-            <h1 className="text-2xl font-semibold">{fullname}</h1>
+            <h1 className="text-2xl font-semibold">{full_name}</h1>
             <p className="text-gray-500">{title}</p>
           </div>
         </div>
