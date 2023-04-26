@@ -77,7 +77,7 @@ const LoginForm = () => {
           required
         />
       </div>
-
+      <span className="text-[#F85149]">{error}</span>
       <button
         type="submit"
         className="w-full mt-2 bg-[#3C65F5] text-white px-4 py-2 rounded mt-4"
