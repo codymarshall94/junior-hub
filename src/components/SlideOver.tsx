@@ -10,7 +10,6 @@ const ProjectMembers = ({ member }: any) => (
 
 const SlideOver = ({ project, show, hide }: any) => {
   const { name, description, createdat, members, stack, status } = project;
-  console.log(project);
 
   if (project.length === 0) {
     return null;
