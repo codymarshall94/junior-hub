@@ -19,20 +19,22 @@ import { supabase } from "./supabase/supabaseClient";
 
 function App() {
   const [session, setSession] = useState<any>(null);
+  const [profile, setProfile] = useState<any>(null);
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
+      console.log(session);
     });
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
       setUser(session?.user);
+      setLoading(false);
     });
-    setLoading(false);
     return () => {
       subscription.unsubscribe();
     };
@@ -54,14 +56,18 @@ function App() {
           <Route path="teams" element={<Teams />} />
           <Route path="projects" element={<Projects />} />
           <Route path="projects/create-project" element={<CreateProject />} />
-          <Route path="profile" element={<ProfileLayout user={user} />}>
-            <Route path="bio" index element={<ProfileBio bio={user ? user["user_metadata"].bio : ""} />} />
+          <Route path="profile" element={<ProfileLayout session={session} />}>
+            <Route
+              path="bio"
+              index
+              element={<ProfileBio session={session} />}
+            />
             <Route path="skills" element={<ProfileSkills />} />
             <Route path="experience" element={<ProfileExperience />} />
           </Route>
           <Route
             path="profile/edit-profile"
-            element={<ProfileEdit user={user} />}
+            element={<ProfileEdit session={session} />}
           />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<h1>404</h1>} />
