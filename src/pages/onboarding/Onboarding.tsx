@@ -43,7 +43,7 @@ const Onboarding = () => {
       element: (
         <OnboardingName
           handleChange={handleChange}
-          fullname={updateUserInfo.fullname}
+          full_name={updateUserInfo.fullname}
         />
       ),
     },
