@@ -1,20 +1,15 @@
 import Pill from "./Pill";
+import SmallProfileAvatar from "./SmallProfileAvatar";
 
-const ProjectMembers = ({ member }: any) => (
-  <div className="flex items-center space-x-2">
-    <div className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
-      {member.charAt(0).toUpperCase()}
-    </div>
-  </div>
-);
-
-const SlideOver = ({ project, show, hide }: any) => {
-  const { name, description, createdat, members, stack, status } = project;
-
-  if (project.length === 0) {
-    return null;
-  }
-
+const SlideOver = ({
+  project,
+  show,
+  hide,
+  sendNotification,
+  memberAvatars,
+}: any) => {
+  if (!project) return <div className="hidden">loading..</div>;
+  const { name, description, createdat, stack, status } = project;
   return (
     <div
       className={`flex flex-col justify-center items-center absolute right-0 top-0 overflow-hidden z-50 bg-white h-screen w-1/4 shadow ${
@@ -57,10 +52,9 @@ const SlideOver = ({ project, show, hide }: any) => {
         {/*Group Status */}
         <div className="my-2">
           <span className="font-bold">Group Members</span>
-
           <div className="flex items-center space-x-2">
-            {members.map((member: any) => (
-              <ProjectMembers key={member} member={member} />
+            {memberAvatars.map((avatar : any) => (
+              <SmallProfileAvatar url={avatar} key={avatar} />
             ))}
           </div>
         </div>
@@ -79,7 +73,12 @@ const SlideOver = ({ project, show, hide }: any) => {
 
       {/* Buttons */}
       <div className="flex justify-between p-4 border-b">
-        <button className="bg-blue-500 text-white p-4 w-full">Request</button>
+        <button
+          onClick={() => sendNotification()}
+          className="bg-blue-500 text-white p-4 w-full"
+        >
+          Request
+        </button>
         <button className="bg-gray-200 text-gray-500 p-4 w-full">
           Message
         </button>
