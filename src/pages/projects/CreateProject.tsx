@@ -3,11 +3,12 @@ import { supabase } from "../../supabase/supabaseClient";
 import { useNavigate } from "react-router-dom";
 
 interface ProjectListing {
+  created_by: number;
   name: string;
   description: string;
-  createdat: string;
+  created_at: string;
   status: string;
-  teamcount: number;
+  team_count: number;
   members: string[];
   stack: string[];
 }
@@ -28,14 +29,15 @@ const techStackOptions = [
   "C++",
 ];
 
-const CreateProject = () => {
+const CreateProject = ({ id }: { id: number }) => {
   const navigate = useNavigate();
   const [projectListing, setProjectListing] = useState<ProjectListing>({
+    created_by: id,
     name: "",
     description: "",
-    createdat: "",
+    created_at: "",
     status: "",
-    teamcount: 1,
+    team_count: 1,
     members: [],
     stack: [],
   });
@@ -69,8 +71,7 @@ const CreateProject = () => {
 
     const projectSubmission = {
       ...projectListing,
-      members: ["Cody"],
-      createdat: new Date().toISOString(),
+      created_at: new Date()
     };
 
     const isEmpty = Object.values(projectSubmission).some(
@@ -89,13 +90,13 @@ const CreateProject = () => {
     if (error) {
       console.log(error);
     } else {
-      console.log(data + " was created");
       setProjectListing({
+        created_by: id,
         name: "",
         description: "",
-        createdat: "",
+        created_at: "",
         status: "",
-        teamcount: 0,
+        team_count: 0,
         members: [],
         stack: [],
       });
@@ -167,15 +168,15 @@ const CreateProject = () => {
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
               className="block uppercase tracking-wide text-[#A3ABBA] text-xs font-bold my-2"
-              htmlFor="teamcount"
+              htmlFor="team_count"
             >
               Team Count
             </label>
             <input
               type="number"
-              id="teamcount"
+              id="team_count"
               className="appearance-none block w-full border-[#E0E6F6] text-[#A3ABBA] border border-2 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              value={projectListing.teamcount}
+              value={projectListing.team_count}
               onChange={(e) => handleChange(e)}
               required
             />
