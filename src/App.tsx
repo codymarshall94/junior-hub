@@ -4,9 +4,6 @@ import Projects from "./pages/projects/Projects";
 import { Routes, Route } from "react-router-dom";
 import Settings from "./pages/settings/Settings";
 import Teams from "./pages/teams/Teams";
-import ProfileBio from "./pages/profile/ProfileBio";
-import ProfileSkills from "./pages/profile/ProfileSkills";
-import ProfileExperience from "./pages/profile/ProfileExperience";
 import ProfileLayout from "./layouts/ProfileLayout";
 import RootLayout from "./layouts/RootLayout";
 import ProfileEdit from "./pages/profile/ProfileEdit";
@@ -16,17 +13,17 @@ import Register from "./pages/register/Register";
 import { useEffect, useState } from "react";
 import Onboarding from "./pages/onboarding/Onboarding";
 import { supabase } from "./supabase/supabaseClient";
+import Profile from "./pages/profile/Profile";
+import Notifications from "./pages/notifications/Notifications";
 
 function App() {
   const [session, setSession] = useState<any>(null);
-  const [profile, setProfile] = useState<any>(null);
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
-      console.log(session);
     });
     const {
       data: { subscription },
@@ -54,21 +51,16 @@ function App() {
         <Route element={<RootLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="teams" element={<Teams />} />
-          <Route path="projects" element={<Projects />} />
-          <Route path="projects/create-project" element={<CreateProject />} />
-          <Route path="profile" element={<ProfileLayout session={session} />}>
-            <Route
-              path="bio"
-              index
-              element={<ProfileBio session={session} />}
-            />
-            <Route path="skills" element={<ProfileSkills />} />
-            <Route path="experience" element={<ProfileExperience />} />
+          <Route path="projects" element={<Projects id={user?.id} />} />
+          <Route path="projects/create-project" element={<CreateProject id={user?.id} />} />
+          <Route element={<ProfileLayout />}>
+            <Route path="profile" element={<Profile session={session} />} />
           </Route>
           <Route
             path="profile/edit-profile"
             element={<ProfileEdit session={session} />}
           />
+          <Route path="notifications" element={<Notifications id={user?.id} />} />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<h1>404</h1>} />
         </Route>
