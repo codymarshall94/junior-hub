@@ -1,9 +1,6 @@
-import { Link } from "react-router-dom";
-
 interface Button {
   name: string;
   svg: JSX.Element;
-  link: string;
 }
 
 const buttons = [
@@ -25,7 +22,6 @@ const buttons = [
         />
       </svg>
     ),
-    link: "bio",
   },
   {
     name: "Skills",
@@ -45,7 +41,6 @@ const buttons = [
         />
       </svg>
     ),
-    link: "skills",
   },
   {
     name: "Experience",
@@ -65,24 +60,47 @@ const buttons = [
         />
       </svg>
     ),
-    link: "experience",
   },
 ];
 
-const Button = ({ button }: { button: Button }) => {
+const Button = ({
+  button,
+  handleChangeTab,
+  index,
+}: {
+  button: Button;
+  handleChangeTab: (tab: number) => void;
+  index: number;
+}) => {
   return (
-    <Link to={button.link} className="group border border-[#EFF2FB] hover:border-[#B4C0E0] rounded-md p-2 flex items-center space-y-1 transition duration-200 ease-in-out hover:translate-y-[-4px] transform">
-      <div className="mr-2 text-[#A2A7B0] group-hover:text-[#445C7A]">{button.svg}</div>
-      <span className="text-[#765E64] group-hover:text-[#052676]">{button.name}</span>
-    </Link>
+    <button
+      onClick={() => handleChangeTab(index)}
+      className="group border border-[#EFF2FB] hover:border-[#B4C0E0] rounded-md p-2 flex items-center space-y-1 transition duration-200 ease-in-out hover:translate-y-[-4px] transform"
+    >
+      <div className="mr-2 text-[#A2A7B0] group-hover:text-[#445C7A]">
+        {button.svg}
+      </div>
+      <span className="text-[#765E64] group-hover:text-[#052676]">
+        {button.name}
+      </span>
+    </button>
   );
 };
 
-const ProfileButtons = () => {
+const ProfileButtons = ({
+  handleChangeTab,
+}: {
+  handleChangeTab: (tab: number) => void;
+}) => {
   return (
     <div className="flex space-x-4">
-      {buttons.map((button) => (
-        <Button key={button.name} button={button} />
+      {buttons.map((button, index) => (
+        <Button
+          key={button.name}
+          button={button}
+          handleChangeTab={handleChangeTab}
+          index={index}
+        />
       ))}
     </div>
   );
