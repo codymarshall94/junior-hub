@@ -20,6 +20,22 @@ function App() {
   const [session, setSession] = useState<any>(null);
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [profile, setProfile] = useState<any>(null);
+
+  const getProfile = async (id: string) => {
+    try {
+      setLoading(true);
+      const user = await supabase
+        .from("profiles")
+        .select(`*`)
+        .eq("id", id)
+        .single();
+      setProfile(user.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((event, session) => {
@@ -30,6 +46,7 @@ function App() {
     } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
       setUser(session?.user);
+      getProfile(session?.user?.id as string);
       setLoading(false);
     });
     return () => {
@@ -48,11 +65,14 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/onboarding" element={<Onboarding />} />
-        <Route element={<RootLayout />}>
+        <Route element={<RootLayout profile={profile} />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="teams" element={<Teams />} />
           <Route path="projects" element={<Projects id={user?.id} />} />
-          <Route path="projects/create-project" element={<CreateProject id={user?.id} />} />
+          <Route
+            path="projects/create-project"
+            element={<CreateProject id={user?.id} />}
+          />
           <Route element={<ProfileLayout />}>
             <Route path="profile" element={<Profile session={session} />} />
           </Route>
@@ -60,7 +80,10 @@ function App() {
             path="profile/edit-profile"
             element={<ProfileEdit session={session} />}
           />
-          <Route path="notifications" element={<Notifications id={user?.id} />} />
+          <Route
+            path="notifications"
+            element={<Notifications id={user?.id} />}
+          />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<h1>404</h1>} />
         </Route>
