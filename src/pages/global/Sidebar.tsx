@@ -1,6 +1,50 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { supabase } from "../../supabase/supabaseClient";
 import { logoutUser } from "../../supabase/supabaseAuth";
+import SmallProfileAvatar from "../../components/SmallProfileAvatar";
+
+const topLinks = [
+  {
+    name: "Notifications",
+    svg: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="w-6 h-6"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+        />
+      </svg>
+    ),
+    link: "/notifications",
+  },
+  {
+    name: "Messages",
+    svg: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="w-6 h-6"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+        />
+      </svg>
+    ),
+    link: "/messages",
+  },
+];
 
 const links = [
   {
@@ -43,66 +87,24 @@ const links = [
     ),
     link: "/teams",
   },
+];
+
+const projectLinks = [
   {
-    name: "Projects",
-    svg: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="w-6 h-6"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-        />
-      </svg>
-    ),
+    name: "My Projects",
+    link: "/my-projects",
+  },
+  {
+    name: "Find a Project",
     link: "/projects",
   },
   {
-    name: "Profile",
-    svg: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="w-6 h-6"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-        />
-      </svg>
-    ),
-    link: "/profile",
+    name: "Create Project",
+    link: "/projects/create-project",
   },
-  {
-    name: "Notifications",
-    svg: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="w-6 h-6"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 22s-8-4.5-8-10V6c0-3.5 4.5-6 8-6s8 2.5 8 6v6c0 5.5-8 10-8 10z"
-        />
-      </svg>
-    ),
-    link: "/notifications",
-  },
+];
+
+const bottomLinks = [
   {
     name: "Settings",
     svg: (
@@ -130,7 +132,77 @@ const links = [
   },
 ];
 
-export default function Sidebar() {
+const ProjectsDropdown = () => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <div className="relative">
+      <button
+        className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-left text-gray-700 bg-white rounded-lg hover:bg-[#F8FAFF] focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
+        onClick={() => setShow(!show)}
+      >
+        <span className="text-gray-900 text-lg font-semibold">Projects</span>
+        <svg
+          className="w-5 h-5 ml-2 -mr-1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          {show ? (
+            <>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
+            </svg>
+          )}
+        </svg>
+      </button>
+      {show && (
+        <>
+          {projectLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.link}
+              className="group flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-left bg-white rounded-lg hover:bg-[#F8FAFF] focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
+            >
+              <span className="text-[#969696] group-hover:text-[#969696] pl-4">
+                {link.name}
+              </span>
+            </Link>
+          ))}
+        </>
+      )}
+    </div>
+  );
+};
+
+export default function Sidebar({ profile }: { profile: any }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -146,74 +218,86 @@ export default function Sidebar() {
   return (
     <div className="flex">
       <div className="flex flex-col h-screen p-3 bg-white shadow w-60">
-        <div className="space-y-3">
+        {/* Logo */}
+        <div className="my-4">
           <div className="flex items-center">
-            <h2 className="text-xl font-bold">Junior Hub</h2>
-          </div>
-          <div className="relative">
-            <span className="absolute inset-y-0 left-0 flex items-center py-4">
-              <button
-                type="submit"
-                className="p-2 focus:outline-none focus:ring"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              </button>
-            </span>
-            <input
-              type="search"
-              name="Search"
-              placeholder="Search..."
-              className="w-full py-2 pl-10 text-sm rounded-md focus:outline-none"
-            />
-          </div>
-          <div className="flex-1">
-            <ul className="pt-2 pb-4 space-y-1 text-sm">
-              {links.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    to={link.link}
-                    className="flex items-center p-2 space-x-2 rounded-md hover:bg-gray-200"
-                  >
-                    {link.svg}
-                    <span>{link.name}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <h2 className="text-2xl font-bold">Junior Hub</h2>
           </div>
         </div>
-        <div className="flex items-center pl-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-            />
-          </svg>
-          <button onClick={() => handleLogout()} className="text-sm pl-2">
-            {" "}
-            Logout
-          </button>
+        {/* Profile */}
+        <div className="flex items-center space-x-2 my-4">
+          <SmallProfileAvatar url={profile?.avatar_url} />
+          <div className="flex flex-col">
+            <span className="font-bold">{profile?.full_name}</span>
+            <Link className="text-sm text-[#AFAFAF]" to="/profile">
+              view profile
+            </Link>
+          </div>
+        </div>
+        {/*Top Links */}
+        <div className="flex flex-col mb-4">
+          {topLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.link}
+              className="flex items-center pl-2 py-1 text-[#969696] text-xs space-x-2 rounded-md hover:bg-[#F8FAFF]"
+            >
+              {link.svg}
+              <span>{link.name}</span>
+            </Link>
+          ))}
+        </div>
+        <div className="border-t border-gray-200"></div>
+        {/* Middle Links */}
+        <div className="flex-1">
+          <ul className="pt-2 pb-4 space-y-1 text-sm">
+            {links.map((link) => (
+              <li key={link.name}>
+                <Link
+                  to={link.link}
+                  className="flex items-center p-2 space-x-2 rounded-md hover:bg-[#F8FAFF]"
+                >
+                  {link.svg}
+                  <span>{link.name}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <ProjectsDropdown />
+        </div>
+
+        {/* Bottom Links */}
+        <div className="flex flex-col">
+          {bottomLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.link}
+              className="flex items-center px-2 py-4 space-x-2 rounded-md hover:bg-[#F8FAFF]"
+            >
+              {link.svg}
+              <span>{link.name}</span>
+            </Link>
+          ))}
+          <div className="flex items-center pl-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+              />
+            </svg>
+            <button onClick={() => handleLogout()} className="pl-2">
+              {" "}
+              Logout
+            </button>
+          </div>
         </div>
       </div>
     </div>
