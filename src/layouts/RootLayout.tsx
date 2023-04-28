@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../pages/global/Sidebar";
 
-const RootLayout = () => {
+const RootLayout = ({profile}: any) => {
   return (
     <div className="flex">
-      <Sidebar />
+      <Sidebar profile={profile} />
       <Outlet />
     </div>
   );
