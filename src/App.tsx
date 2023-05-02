@@ -1,6 +1,6 @@
 import Dashboard from "./pages/dashboard/Dashboard";
 import CreateProject from "./pages/projects/CreateProject";
-import Projects from "./pages/projects/Projects";
+import ProjectListings from "./pages/projects/ProjectListings";
 import { Routes, Route } from "react-router-dom";
 import Settings from "./pages/settings/Settings";
 import Teams from "./pages/teams/Teams";
@@ -15,6 +15,8 @@ import Onboarding from "./pages/onboarding/Onboarding";
 import { supabase } from "./supabase/supabaseClient";
 import Profile from "./pages/profile/Profile";
 import Notifications from "./pages/notifications/Notifications";
+import Projects from "./pages/projects/Projects";
+import Project from "./pages/projects/Project";
 
 function App() {
   const [session, setSession] = useState<any>(null);
@@ -68,11 +70,13 @@ function App() {
         <Route element={<RootLayout profile={profile} />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="teams" element={<Teams />} />
-          <Route path="projects" element={<Projects id={user?.id} />} />
+          <Route path="projects" element={<ProjectListings id={user?.id} />} />
           <Route
             path="projects/create-project"
             element={<CreateProject id={user?.id} />}
           />
+          <Route path="projects/:id" element={<Project />} />
+          <Route path="my-projects" element={<Projects id={user?.id} />} />
           <Route element={<ProfileLayout />}>
             <Route path="profile" element={<Profile session={session} />} />
           </Route>
