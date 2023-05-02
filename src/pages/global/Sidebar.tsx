@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../supabase/supabaseAuth";
 import SmallProfileAvatar from "../../components/SmallProfileAvatar";
+import Logo from "../../assets/logo/devcollab-low-resolution-logo-color-on-transparent-background.png";
 
 const topLinks = [
   {
@@ -219,9 +220,9 @@ export default function Sidebar({ profile }: { profile: any }) {
     <div className="flex">
       <div className="flex flex-col h-screen p-3 bg-white shadow w-60">
         {/* Logo */}
-        <div className="my-4">
-          <div className="flex items-center">
-            <h2 className="text-2xl font-bold">Junior Hub</h2>
+        <div className="mb-8 w-full">
+          <div className="flex items-center w-full justify-center">
+            <img src={Logo} alt="logo" className="w-full h-full" />
           </div>
         </div>
         {/* Profile */}
