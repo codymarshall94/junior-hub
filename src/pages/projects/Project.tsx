@@ -56,6 +56,7 @@ const Project = () => {
       <ProjectHeader
         title={selectedProject?.name}
         memberAvatars={memberAvatars}
+        createdAt={selectedProject?.created_at}
       />
       <ProjectLinks />
     </div>
