@@ -1,23 +1,12 @@
 import Pill from "../../components/Pill";
 import WatchIcon from "../../components/WatchIcon";
-
-interface ProjectProps {
-  id: number;
-  name: string;
-  description: string;
-  created_at: string;
-  created_by: string;
-  team_count: number;
-  members: string[] | any;
-  stack: string[] | any;
-  status: string;
-}
+import Project from "../../types/project";
 
 const ProjectItem = ({
   project,
   onClick,
 }: {
-  project: ProjectProps;
+  project: Project;
   onClick: any;
 }) => {
   const { name, description, team_count, stack, created_at, members } = project;
