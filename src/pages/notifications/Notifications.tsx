@@ -1,25 +1,23 @@
 import { useEffect, useState } from "react";
-import { supabase } from "../../supabase/supabaseClient";
+import { getNotifications } from "../../supabase/supabaseUtils";
+import Notification from "../../types/notification";
 import NotificationHeader from "./NotificationHeader";
 import NotificationButtons from "./NotificationButtons";
 
 const Notifications = ({ id }: { id: string }) => {
-  const [notifications, setNotifications] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getNotifications = async () => {
-      const { data, error } = await supabase
-        .from("notifications")
-        .select("*")
-        .eq("reciever_id", id);
-      if (error) {
+    getNotifications(id)
+      .then((notifications) => {
+        if (!notifications) return console.log("No notifications");
+        setNotifications(notifications);
+        setLoading(false);
+      })
+      .catch((error) => {
         console.log(error);
-      }
-      setNotifications(data as any);
-      setLoading(false);
-    };
-    getNotifications();
+      });
   }, []);
 
   if (loading) {
