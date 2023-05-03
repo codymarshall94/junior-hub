@@ -1,5 +1,6 @@
 import { supabase } from "../../supabase/supabaseClient";
 
+
 const NotificationButtons = ({ notification }: { notification: any }) => {
   const handleDecline = async (notification: any) => {
     const { data, error } = await supabase
@@ -33,17 +34,6 @@ const NotificationButtons = ({ notification }: { notification: any }) => {
     }
     console.log(data);
     handleAcceptMember(notification);
-  };
-
-  const handleDelete = async (notification: any) => {
-    const { data, error } = await supabase
-      .from("notifications")
-      .delete()
-      .eq("id", notification.id);
-    if (error) {
-      console.log(error);
-    }
-    console.log(data);
   };
 
   return (
