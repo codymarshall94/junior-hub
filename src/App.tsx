@@ -1,18 +1,17 @@
+import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import { supabase } from "./supabase/supabaseClient";
 import Dashboard from "./pages/dashboard/Dashboard";
 import CreateProject from "./pages/projects/CreateProject";
 import ProjectListings from "./pages/projects/ProjectListings";
-import { Routes, Route } from "react-router-dom";
-import Settings from "./pages/settings/Settings";
-import Teams from "./pages/teams/Teams";
 import ProfileLayout from "./layouts/ProfileLayout";
 import RootLayout from "./layouts/RootLayout";
 import ProfileEdit from "./pages/profile/ProfileEdit";
 import Landing from "./pages/landing/Landing";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
-import { useEffect, useState } from "react";
+import Settings from "./pages/settings/Settings";
 import Onboarding from "./pages/onboarding/Onboarding";
-import { supabase } from "./supabase/supabaseClient";
 import Profile from "./pages/profile/Profile";
 import Notifications from "./pages/notifications/Notifications";
 import Projects from "./pages/projects/Projects";
@@ -69,7 +68,6 @@ function App() {
         <Route path="/onboarding" element={<Onboarding />} />
         <Route element={<RootLayout profile={profile} />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="teams" element={<Teams />} />
           <Route path="projects" element={<ProjectListings id={user?.id} />} />
           <Route
             path="projects/create-project"
