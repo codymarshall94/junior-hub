@@ -42,7 +42,7 @@ const CreateProject = ({ id }: { id: number }) => {
     stack: [],
   });
 
-  const handleCheckboxChange = (e: any) => {
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = e.target;
     if (checked) {
       setProjectListing({
@@ -57,11 +57,15 @@ const CreateProject = ({ id }: { id: number }) => {
     }
   };
 
-  const handleChange = (e: any) => {
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setProjectListing({ ...projectListing, status: e.target.value });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProjectListing({ ...projectListing, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (projectListing.stack.length === 0) {
@@ -71,7 +75,7 @@ const CreateProject = ({ id }: { id: number }) => {
 
     const projectSubmission = {
       ...projectListing,
-      created_at: new Date()
+      created_at: new Date(),
     };
 
     const isEmpty = Object.values(projectSubmission).some(
@@ -137,7 +141,7 @@ const CreateProject = ({ id }: { id: number }) => {
             <select
               className="appearance-none block w-full border-[#E0E6F6] text-[#A3ABBA] border border-2 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="status"
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => handleStatusChange(e)}
               required
             >
               <option value="active">Planning</option>
