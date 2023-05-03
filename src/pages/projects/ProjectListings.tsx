@@ -3,16 +3,21 @@ import SlideOver from "../../components/SlideOver";
 import { Link } from "react-router-dom";
 import { supabase } from "../../supabase/supabaseClient";
 import ProjectsToolbar from "./ProjectsToolbar";
-import ProjectItem from "./ProjectItem";
+import ProjectsGrid from "./ProjectsGrid";
 import { createNotification } from "../../supabase/supabaseUtils";
+import ProjectListing from "../../types/project";
 
 const ProjectListings = ({ id }: { id: number }) => {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<ProjectListing[]>([]);
+  const [sortedProjects, setSortedProjects] = useState<ProjectListing[]>([]);
   const [selectedProject, setSelectedProject] = useState<any>(null);
   const [showSlideOver, setShowSlideOver] = useState(false);
   const [loading, setLoading] = useState(true);
   const [profileName, setProfileName] = useState("");
   const [memberAvatars, setMemberAvatars] = useState<string[]>([]);
+  const [gridAllignment, setGridAllignment] = useState<"single" | "columns">(
+    "columns"
+  );
 
   useEffect(() => {
     getProjects();
@@ -57,6 +62,7 @@ const ProjectListings = ({ id }: { id: number }) => {
       console.log(error);
     }
     setProjects(data as any);
+    setSortedProjects(data as any);
     setLoading(false);
   };
 
@@ -81,6 +87,24 @@ const ProjectListings = ({ id }: { id: number }) => {
 
     await createNotification(notificationObj);
     setShowSlideOver(false);
+  };
+
+  const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const sortedProjects = [...projects];
+    if (e.target.value === "newest") {
+      sortedProjects.sort((a, b) => {
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+      });
+    } else if (e.target.value === "oldest") {
+      sortedProjects.sort((a, b) => {
+        return (
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        );
+      });
+    }
+    setSortedProjects(sortedProjects);
   };
 
   if (!projects)
@@ -112,21 +136,22 @@ const ProjectListings = ({ id }: { id: number }) => {
           Create Project
         </Link>
       </div>
-      <ProjectsToolbar length={projects.length} />
+      <ProjectsToolbar
+        length={projects.length}
+        gridAllignment={gridAllignment}
+        handleGridAllignment={setGridAllignment}
+        handleSort={handleSort}
+      />
       {loading ? (
         <div className="h-fit border-t-2 border-[#E0E6F7] w-full">
           <span>Fetching Projects...</span>
         </div>
       ) : (
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 p-4 h-fit border-t-2 border-[#E0E6F7] w-full">
-          {projects.map((project) => (
-            <ProjectItem
-              key={project["id"]}
-              project={project}
-              onClick={handleProjectClick}
-            />
-          ))}
-        </div>
+        <ProjectsGrid
+          gridAllignment={gridAllignment}
+          projects={sortedProjects}
+          onClick={handleProjectClick}
+        />
       )}
       <SlideOver
         project={selectedProject}
