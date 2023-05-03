@@ -1,7 +1,4 @@
-import { useState } from "react";
-
-const ProfileRating = () => {
-  const [rating, setRating] = useState(4);
+const ProfileRating = ({ rating }: { rating: number }) => {
 
   return (
     <div className="flex items-center">
