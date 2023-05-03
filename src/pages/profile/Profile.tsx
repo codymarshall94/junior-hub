@@ -2,17 +2,22 @@ import { useState, useEffect } from "react";
 import { supabase } from "../../supabase/supabaseClient";
 import ProfileButtons from "./ProfileButtons";
 import ProfileHeader from "./ProfileHeader";
-import ProfilePill from "./ProfilePill";
 import ProfileRating from "./ProfileRating";
 import ProfileBio from "./ProfileBio";
 import ProfileSkills from "./ProfileSkills";
 import ProfileExperience from "./ProfileExperience";
+import RatingTag from "./RatingTag";
 
 const Profile = ({ session }: { session: any }) => {
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [currentTab, setCurrentTab] = useState<Number | null>(0);
+  //Rating for testing purposes
+  const [rating, setRating] = useState({
+    rating: 4.5,
+    ratingCount: 10,
+  })
 
   useEffect(() => {
     const getProfile = async () => {
@@ -85,8 +90,8 @@ const Profile = ({ session }: { session: any }) => {
         avatar={avatarUrl}
       />
       <div className="flex flex-row space-x-4">
-        <ProfileRating />
-        <ProfilePill />
+        <ProfileRating rating={rating.rating}/>
+        <RatingTag rating={rating.rating} ratingCount={rating.ratingCount}/>
       </div>
       <ProfileButtons handleChangeTab={handleChangeTab} />
       <div className="border-t border-gray-200"></div>
