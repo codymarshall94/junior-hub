@@ -25,17 +25,18 @@ const Notifications = ({ id }: { id: string }) => {
   }
 
   return (
-    <div className="flex flex-col space-y-4 p-4 w-full">
+    <div className="flex flex-col space-y-4 p-4 w-1/2">
       <h1 className="text-2xl font-bold">Notifications</h1>
       <div className="flex flex-col p-4">
         {notifications.map((notification) => (
           <div
             key={notification.id}
-            className="border-b-2 border-gray-200 py-4 w-1/4"
+            className="border-b-2 border-gray-200 py-4"
           >
             <NotificationHeader
               name={notification.message}
               time={notification.created_at}
+              id={notification.id}
             />
             <NotificationButtons notification={notification} />
           </div>
