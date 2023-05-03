@@ -21,3 +21,14 @@ export const createNotification = async (notificationObj: any) => {
   }
   return { data, error };
 };
+
+export const deleteNotification = async (id: string) => {
+  const { data, error } = await supabase
+    .from("notifications")
+    .delete()
+    .eq("id", id);
+  if (error) {
+    console.log(error);
+  }
+  return { data, error };
+};
