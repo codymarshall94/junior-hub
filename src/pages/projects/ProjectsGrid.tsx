@@ -15,7 +15,7 @@ const ProjectsGrid = ({
   return (
     <div className="w-full">
       {gridAllignment === "single" ? (
-        <div className="grid grid-cols-1 gap-4 p-4 h-fit max-w-2xl">
+        <div className="grid grid-cols-1 gap-4 p-4 h-fit max-w-2xl mx-auto">
           {projects.map((project) => (
             <ProjectItem
               key={project["id"]}
@@ -25,7 +25,7 @@ const ProjectsGrid = ({
           ))}
         </div>
       ) : (
-        <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-2 p-4">
+        <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2 p-4">
           {projects.map((project) => (
             <ProjectItem
               key={project["id"]}
