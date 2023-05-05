@@ -64,16 +64,9 @@ const MyProjects = ({ id }: { id: string }) => {
   };
 
   return (
-    <div className="flex flex-col w-screen items-center">
-      <div className="flex items-center justify-between w-full p-4 h-40">
-        <h1 className="text-2xl font-bold h-fit">My Projects</h1>
-        <Link
-          to="/projects/create-project"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Create Project
-        </Link>
-      </div>
+    <div className="flex flex-col w-full items-center">
+      <h1 className="text-2xl font-bold h-fit">My Projects</h1>
+
       <ProjectsToolbar
         length={projects.length}
         gridAllignment={gridAllignment}
@@ -85,7 +78,11 @@ const MyProjects = ({ id }: { id: string }) => {
           <span>Fetching Projects...</span>
         </div>
       ) : (
-        <ProjectsGrid gridAllignment={gridAllignment} projects={sortedProjects} onClick={handleProjectClick} />
+        <ProjectsGrid
+          gridAllignment={gridAllignment}
+          projects={sortedProjects}
+          onClick={handleProjectClick}
+        />
       )}
     </div>
   );
