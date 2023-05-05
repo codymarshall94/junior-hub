@@ -51,7 +51,7 @@ const Project = () => {
   }
 
   return (
-    <div className="p-4 w-screen">
+    <div className="p-4">
       <h1 className="text-2xl font-semibold">Project Dashboard</h1>
       <ProjectHeader
         title={selectedProject?.name}
