@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { supabase } from "../../supabase/supabaseClient";
 import ProfileButtons from "./ProfileButtons";
 import ProfileHeader from "./ProfileHeader";
@@ -7,26 +8,27 @@ import ProfileBio from "./ProfileBio";
 import ProfileSkills from "./ProfileSkills";
 import ProfileExperience from "./ProfileExperience";
 import RatingTag from "./RatingTag";
+import Loading from "../../components/Loading";
 
 const Profile = ({ session }: { session: any }) => {
+  const { id } = useParams<{ id: string }>();
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [currentTab, setCurrentTab] = useState<Number | null>(0);
   //Rating for testing purposes
   const [rating, setRating] = useState({
-    rating: 4.5,
+    rating: 5,
     ratingCount: 10,
-  })
+  });
 
   useEffect(() => {
     const getProfile = async () => {
       setLoading(true);
-      const { user } = session;
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
-        .eq("id", user.id)
+        .eq("id", id)
         .single();
       if (error) {
         console.warn(error);
@@ -36,7 +38,7 @@ const Profile = ({ session }: { session: any }) => {
       setLoading(false);
     };
     getProfile();
-  }, [session]);
+  }, [id]);
 
   useEffect(() => {
     if (profile) downloadImage(profile.avatar_url);
@@ -55,7 +57,7 @@ const Profile = ({ session }: { session: any }) => {
     } catch (error) {
       console.log("Error downloading image: ", error);
     }
-  }
+  };
 
   const handleChangeTab = (index: Number) => {
     setCurrentTab(index);
@@ -79,7 +81,7 @@ const Profile = ({ session }: { session: any }) => {
   ];
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
@@ -90,8 +92,8 @@ const Profile = ({ session }: { session: any }) => {
         avatar={avatarUrl}
       />
       <div className="flex flex-row space-x-4">
-        <ProfileRating rating={rating.rating}/>
-        <RatingTag rating={rating.rating} ratingCount={rating.ratingCount}/>
+        <ProfileRating rating={rating.rating} />
+        <RatingTag rating={rating.rating} ratingCount={rating.ratingCount} />
       </div>
       <ProfileButtons handleChangeTab={handleChangeTab} />
       <div className="border-t border-gray-200"></div>
