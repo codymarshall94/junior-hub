@@ -1,5 +1,6 @@
 import ProjectsSort from "./ProjectSort";
 import ProjectsOrientation from "./ProjectsOrientation";
+import { Link } from "react-router-dom";
 
 type LengthProps = {
   length: number;
@@ -26,6 +27,12 @@ const ProjectsToolbar = ({
         Showing <strong>{length}</strong> of <strong>{length}</strong> projects
       </span>
       <div className="flex items-center">
+        <Link
+          to="/projects/create-project"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded whitespace-nowrap mr-4"
+        >
+          Create Project
+        </Link>
         <ProjectsSort handleSelect={handleSort} />
         <ProjectsOrientation
           gridAllignment={gridAllignment}
