@@ -68,6 +68,7 @@ const MyProjects = ({ id }: { id: string }) => {
       <h1 className="text-2xl font-bold h-fit">My Projects</h1>
 
       <ProjectsToolbar
+        showingLength={sortedProjects.length}
         length={projects.length}
         gridAllignment={gridAllignment}
         handleGridAllignment={setGridAllignment}
