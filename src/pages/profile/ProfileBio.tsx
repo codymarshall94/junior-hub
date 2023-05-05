@@ -6,7 +6,6 @@ interface ProfileBioProps {
 }
 
 const ProfileBio = ({ bio, website, linkedin, github }: ProfileBioProps) => {
-
   const links = [
     {
       name: "Personal Website",
@@ -36,7 +35,7 @@ const ProfileBio = ({ bio, website, linkedin, github }: ProfileBioProps) => {
           <h1 className="font-semibold text-lg mb-2">Links</h1>
           <ul className="space-y-2">
             {links.map((link) => (
-              <>
+              <div key={link.name} className="flex flex-row space-x-2">
                 {link.link !== "" && (
                   <li key={link.name}>
                     <a
@@ -49,7 +48,7 @@ const ProfileBio = ({ bio, website, linkedin, github }: ProfileBioProps) => {
                     </a>
                   </li>
                 )}
-              </>
+              </div>
             ))}
           </ul>
         </div>
