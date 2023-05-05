@@ -7,6 +7,7 @@ interface Notification {
   status: string;
   message: string;
   type: string;
+  sender_avatar: string;
 }
 
 export default Notification;
