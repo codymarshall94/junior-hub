@@ -1,9 +1,10 @@
 import Pill from "../../components/Pill";
 import SmallProfileAvatar from "../../components/SmallProfileAvatar";
 import ProjectListing from "../../types/project";
+import Loading from "../../components/Loading";
 
 interface ProjectDetailsProps {
-  project: ProjectListing;
+  project: ProjectListing | null;
   sendNotification: () => void;
   memberAvatars: string[];
 }
@@ -17,7 +18,8 @@ const ProjectDetails = ({
   sendNotification,
   memberAvatars,
 }: ProjectDetailsProps) => {
-    if(!project) return <div className="flex flex-col items-center justify-center h-full w-full">Loading...</div>
+
+  if (!project) return <Loading />;
 
   const { name, description, stack, status, created_at } = project;
   const readableDate = new Date(created_at).toLocaleDateString("en-US", {
@@ -25,8 +27,6 @@ const ProjectDetails = ({
     month: "long",
     day: "numeric",
   });
-
-
 
   return (
     <div className="flex flex-col h-full w-full">
@@ -53,9 +53,9 @@ const ProjectDetails = ({
         <div className="flex flex-col items-start w-full border-2 border-gray-200 rounded-md p-4 my-2">
           <span className="text-gray-500 text-sm mb-4">Members</span>
           <div className="flex items-center space-x-2">
-            {memberAvatars.map((avatar: any) => (
-              <SmallProfileAvatar url={avatar} key={avatar} />
-            ))}
+           {memberAvatars.map((avatar: any) => (
+              <SmallProfileAvatar url={avatar.avatar} key={avatar.id} userId={avatar.id} />
+           ))}
           </div>
         </div>
 
