@@ -6,6 +6,9 @@ import ProjectsToolbar from "./ProjectsToolbar";
 import ProjectsGrid from "./ProjectsGrid";
 import { createNotification } from "../../supabase/supabaseUtils";
 import ProjectListing from "../../types/project";
+import ProjectDetails from "./ProjectDetails";
+import ProjectsSearch from "./ProjectsSearch";
+import Loading from "../../components/Loading";
 
 const ProjectListings = ({ id }: { id: number }) => {
   const [projects, setProjects] = useState<ProjectListing[]>([]);
@@ -107,7 +110,9 @@ const ProjectListings = ({ id }: { id: number }) => {
     setSortedProjects(sortedProjects);
   };
 
-  if (!projects)
+  if(!projects) return <Loading />
+
+  if (projects.length === 0)
     return (
       <div className="flex flex-col w-screen items-center">
         <div className="flex items-center justify-between w-full p-4 h-40">
@@ -126,16 +131,8 @@ const ProjectListings = ({ id }: { id: number }) => {
     );
 
   return (
-    <div className="flex flex-col w-screen items-center">
-      <div className="flex items-center justify-between w-full p-4 h-40">
-        <h1 className="text-2xl font-bold h-fit">Project Listings</h1>
-        <Link
-          to="/projects/create-project"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Create Project
-        </Link>
-      </div>
+    <div className="flex flex-col w-fullitems-center">
+        <ProjectsSearch />
       <ProjectsToolbar
         length={projects.length}
         gridAllignment={gridAllignment}
@@ -154,11 +151,9 @@ const ProjectListings = ({ id }: { id: number }) => {
         />
       )}
       <SlideOver
-        project={selectedProject}
+        children={<ProjectDetails project={selectedProject} sendNotification={sendNotification} memberAvatars={memberAvatars} />}
         show={showSlideOver}
         hide={handleSlideOver}
-        sendNotification={sendNotification}
-        memberAvatars={memberAvatars}
       />
     </div>
   );
