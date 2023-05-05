@@ -70,7 +70,7 @@ const ProjectItem = ({
           <div className="py-4">
             <p className="text-sm">{description}</p>
           </div>
-          <div className="flex space-x-2 mt-2">
+          <div className="flex space-x-2 mt-2 flex-wrap w-full">
             {stack.map((pill: string) => (
               <Pill key={pill} pill={pill} />
             ))}
