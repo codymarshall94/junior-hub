@@ -124,6 +124,7 @@ const CreateProject = ({ id }: { id: number }) => {
             <input
               type="text"
               id="name"
+              maxLength={30}
               className="appearance-none block w-full border-[#E0E6F6] text-[#A3ABBA] border border-2 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               value={projectListing.name}
               onChange={(e) => handleChange(e)}
@@ -164,6 +165,7 @@ const CreateProject = ({ id }: { id: number }) => {
               className="appearance-none block w-full border-[#E0E6F6] text-[#A3ABBA] border border-2 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               value={projectListing.description}
               onChange={(e) => handleChange(e)}
+              maxLength={200}
               required
             />
           </div>
@@ -182,6 +184,8 @@ const CreateProject = ({ id }: { id: number }) => {
               className="appearance-none block w-full border-[#E0E6F6] text-[#A3ABBA] border border-2 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               value={projectListing.team_count}
               onChange={(e) => handleChange(e)}
+              min={1}
+              max={10}
               required
             />
           </div>
