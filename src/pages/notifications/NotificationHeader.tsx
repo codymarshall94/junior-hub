@@ -1,13 +1,22 @@
 import { useState } from "react";
 import { deleteNotification } from "../../supabase/supabaseUtils";
+import SmallProfileAvatar from "../../components/SmallProfileAvatar";
 
 interface NotificationHeaderProps {
-  name: string;
+  message: string;
   time: Date;
   id: string;
+  avatar: string;
+  senderId: string;
 }
 
-const NotificationHeader = ({ name, time, id }: NotificationHeaderProps) => {
+const NotificationHeader = ({
+  message,
+  time,
+  id,
+  avatar,
+  senderId,
+}: NotificationHeaderProps) => {
   const [dropdown, setDropdown] = useState(false);
 
   const timeAgo = (time: Date) => {
@@ -58,12 +67,12 @@ const NotificationHeader = ({ name, time, id }: NotificationHeaderProps) => {
   return (
     <div className="relative flex flex-col items-start w-full h-16 py-2">
       <div className="flex items-center space-x-2">
-        <span className="font-bold">{name}</span>
+        {avatar && <SmallProfileAvatar url={avatar} userId={senderId} />}
+        <span className="font-bold">{message}</span>
       </div>
       <div className=" flex items-center space-x-2">
         <span className="font-sm text-gray-500">{readableDate}</span>
       </div>
-
       <div
         className="absolute right-0 top-0 hover:bg-gray-100 rounded-full p-1 cursor-pointer"
         onClick={() => setDropdown(!dropdown)}
