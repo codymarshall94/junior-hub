@@ -1,5 +1,5 @@
 import { supabase } from "../../supabase/supabaseClient";
-
+import { createNotification } from "../../supabase/supabaseUtils";
 
 const NotificationButtons = ({ notification }: { notification: any }) => {
   const handleDecline = async (notification: any) => {
@@ -21,6 +21,15 @@ const NotificationButtons = ({ notification }: { notification: any }) => {
     if (error) {
       console.log(error);
     }
+    const notificationObj = {
+      project_id: notification.project_id,
+      sender_id: notification.reciever_id,
+      reciever_id: notification.sender_id,
+      status: "unread",
+      message: `Your request to join has been accepted.`,
+      type: "accepted_request_to_join",
+    };
+    await createNotification(notificationObj);
     console.log(data);
   };
 
