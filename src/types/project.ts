@@ -1,5 +1,5 @@
 interface ProjectListing {
-    id: number;
+    id: string;
     created_at: Date;
     created_by: string;
     name: string;
