@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "../supabase/supabaseClient";
 
-const SmallProfileAvatar = ({ url }: { url: string }) => {
+interface SmallProfileAvatarProps {
+  url: string;
+  userId: string;
+}
+
+const SmallProfileAvatar = ({ url, userId }: SmallProfileAvatarProps) => {
   const [avatarUrl, setAvatarUrl] = useState<string | null>("");
 
   useEffect(() => {
@@ -30,13 +36,16 @@ const SmallProfileAvatar = ({ url }: { url: string }) => {
 
   return (
     <div className="flex items-center space-x-2">
-      <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+      <Link
+        to={`/profile/${userId}`}
+        className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden"
+      >
         <img
           src={avatarUrl}
           alt="member"
           className="w-full h-full object-fit"
         />
-      </div>
+      </Link>
     </div>
   );
 };
