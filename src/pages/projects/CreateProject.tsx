@@ -144,10 +144,10 @@ const CreateProject = ({ id }: { id: number }) => {
               onChange={(e) => handleStatusChange(e)}
               required
             >
-              <option value="active">Planning</option>
-              <option value="inactive">Early Development</option>
-              <option value="inactive">In Development</option>
-              <option value="inactive">In Review</option>
+              <option value="Planning">Planning</option>
+              <option value="Early Development">Early Development</option>
+              <option value="In Development">In Development</option>
+              <option value="In Review">In Review</option>
             </select>
           </div>
           {/* Description */}
