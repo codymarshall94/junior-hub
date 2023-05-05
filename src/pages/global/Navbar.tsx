@@ -86,18 +86,15 @@ const mainLinks = [
   },
 ];
 
-const avatarLinks = [
-  {
-    name: "View Profile",
-    link: "/profile",
-  },
-  {
-    name: "My Projects",
-    link: "/my-projects",
-  },
-];
+interface AvatarDropdownMenuProps {
+  children: any;
+  profileId: string;
+}
 
-const AvatarDropdownMenu = ({ children }: { children: any }) => {
+const AvatarDropdownMenu = ({
+  children,
+  profileId,
+}: AvatarDropdownMenuProps) => {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
@@ -110,6 +107,17 @@ const AvatarDropdownMenu = ({ children }: { children: any }) => {
         console.log(err);
       });
   };
+
+  const avatarLinks = [
+    {
+      name: "View Profile",
+      link: `/profile/${profileId}`
+    },
+    {
+      name: "My Projects",
+      link: "/my-projects",
+    },
+  ];
 
   return (
     <div className="relative cursor-pointer" onClick={() => setShow(!show)}>
@@ -144,7 +152,6 @@ export default function Navbar({ profile }: { profile: any }) {
   useEffect(() => {
     const path = location.pathname.split("/")[1];
     setCurrentPage(path);
-    console.log(path);
   }, [location]);
 
   return (
@@ -159,7 +166,9 @@ export default function Navbar({ profile }: { profile: any }) {
             <Link
               to={link.link}
               className={`flex items-center p-2 space-x-2 hover:text-blue-500 ${
-                currentPage === link.name.toLowerCase() ? "border-b-2 border-blue-500 text-blue-500" : ""
+                currentPage === link.name.toLowerCase()
+                  ? "border-b-2 border-blue-500 text-blue-500"
+                  : ""
               }`}
               key={link.name}
             >
@@ -181,7 +190,8 @@ export default function Navbar({ profile }: { profile: any }) {
           ))}
         </ul>
         <AvatarDropdownMenu
-          children={<SmallProfileAvatar url={profile?.avatar_url} />}
+          children={<SmallProfileAvatar url={profile?.avatar_url} userId={profile?.id} />}
+          profileId={profile?.id}
         />
       </div>
     </div>
