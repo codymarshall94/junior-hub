@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 type LengthProps = {
   length: number;
+  showingLength: number;
 };
 
 type OrientationProps = {
@@ -16,6 +17,7 @@ type SortProps = {
 };
 
 const ProjectsToolbar = ({
+  showingLength,
   length,
   gridAllignment,
   handleGridAllignment,
@@ -24,7 +26,7 @@ const ProjectsToolbar = ({
   return (
     <div className="flex items-center justify-between w-full pl-4 pb-2 border-b-2 border-[#E0E6F7]">
       <span>
-        Showing <strong>{length}</strong> of <strong>{length}</strong> projects
+        Showing <strong>{showingLength}</strong> of <strong>{length}</strong> projects
       </span>
       <div className="flex items-center">
         <Link
